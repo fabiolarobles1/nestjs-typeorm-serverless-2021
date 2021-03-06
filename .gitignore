@@ -39,3 +39,5 @@ lerna-debug.log*
 
 # enviormental variables
 .env
+
+serverless.yml

@@ -10,8 +10,7 @@ import { AuthModule } from './auth/auth.module';
 		TypeOrmModule.forRootAsync({
 			useClass: Database
 		}),
-		AuthModule,
-		UsersModule
+		AuthModule
 	],
 	controllers: [],
 	providers: []

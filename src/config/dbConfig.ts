@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { ConnectionManager, getConnectionManager } from 'typeorm';
+import { FormEntity } from '../entities/form.entity';
 import { UsersEntity } from '../entities/users.entity';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class Database implements TypeOrmOptionsFactory {
 				extra: {
 					charset: 'utf8mb4_unicode_ci'
 				},
-				entities: [ UsersEntity],
+				entities: [ UsersEntity, FormEntity ],
 				synchronize: false
 			} as unknown) as TypeOrmModuleOptions;
 

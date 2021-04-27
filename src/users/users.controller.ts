@@ -31,20 +31,25 @@ export class UsersController {
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	public async login(@Request() req) {
-		console.log(req.user);
 		return this.authService.login(req.user);
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Get('attorneys/requests')
-	public async attorneysRequests(@Request() { user: { id } }) {
-		return await this.usersService.getAttorneyRequest(id);
+	@Get('attorneys')
+	public async getAttorneys() {
+		return this.usersService.getAttorneys();
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Get('requests')
 	public async getUserRequests(@Request() { user: { id } }) {
 		return await this.usersService.getUserRequests(id);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('attorneys/requests')
+	public async attorneysRequests(@Request() { user: { id } }) {
+		return await this.usersService.getAttorneyRequest(id);
 	}
 
 	@UseGuards(JwtAuthGuard)

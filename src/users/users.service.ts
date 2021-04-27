@@ -18,11 +18,17 @@ export class UsersService {
 	public async insertDivorceType(
 		userAnswers: SubmitFormDTO,
 		user_id: number
-	): Promise<{ message: string; status: number }> {
+	): Promise<{ message: string; status: number; result? }> {
 		const newFormRecord = new FormEntity(userAnswers, user_id);
 		try {
-			await this.formRepo.save(newFormRecord);
-			return { message: 'success!', status: HttpStatus.OK };
+			const { d1, d2, d3 } = await this.formRepo.save(newFormRecord);
+			const result = {
+				qualifies_for_d1: d1,
+				qualifies_for_d2: d2,
+				qualifies_for_d3: d3,
+				form_status: 'Pending'
+			};
+			return { message: 'success!', status: HttpStatus.OK, result };
 		} catch (err) {
 			console.log(err);
 			return { message: 'internal server error', status: HttpStatus.INTERNAL_SERVER_ERROR };
@@ -67,6 +73,19 @@ export class UsersService {
 		} catch (err) {
 			console.log(err);
 			return { message: 'internal server error', status: HttpStatus.INTERNAL_SERVER_ERROR };
+		}
+	}
+
+	public async getAttorneys() {
+		try {
+			const attorneysArr = await this.usersRepo.find({
+				where: { lawyer: true },
+				select: [ 'id', 'first_name', 'last_name', 'rua' ]
+			});
+			return attorneysArr;
+		} catch (error) {
+			console.log(error);
+			throw new InternalServerErrorException();
 		}
 	}
 
